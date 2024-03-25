@@ -1,40 +1,64 @@
-import React, { FormEvent, Dispatch, SetStateAction, EventHandler, useState } from 'react'
+import React, { FormEvent, Dispatch, SetStateAction, useState, useEffect } from 'react'
+import SearchBarSuggestions from './SearchBarSuggestions'
+import { FaSearchengin } from 'react-icons/fa6'
 
 type Props = {
-    searchTerm: string,
     setSearchTerm: Dispatch<SetStateAction<string>>
+    searchInput: string,
+    setSearchInput: Dispatch<SetStateAction<string>>
 }
 
-const SearchBar: React.FC<Props> = ({searchTerm, setSearchTerm}) => {
+const SearchBar: React.FC<Props> = ({setSearchTerm, searchInput, setSearchInput}) => {
     const searchBar = React.useRef(null)
-    const [input, setInput] = useState<string>(searchTerm)
-    function handleInput(e: string){
-        let num = parseInt(e)
-        if(isNaN(num) || num < 1)
-            num = 1
-        setSearchTerm(num.toString())
-    }
+    const [selectedBar, setSelectedBar] = useState(true)
+    const inputElement = document.getElementById("input")
     function handleSubmit(e: FormEvent){
         e.preventDefault()
-        let num = parseInt(input)
-        if(isNaN(num) || num < 1)
-            num = 1
-        setSearchTerm(num.toString())
-        setInput(num.toString())
+        setSearchTerm(searchInput)
+        setSearchInput(searchInput)
+        setSelectedBar(false)
+    }
+    function handleClick(value: string){
+        setSearchTerm(value)
+        setSearchInput(value)
     }
 
+    useEffect(() => {
+        inputElement?.focus()
+    }, [])
+    function delaySelectionAction(select: boolean){
+        setTimeout(() => {
+            setSelectedBar(select)
+        }, 50);
+    }
+    
     return (
-        <form onSubmit={handleSubmit}>
-            <div>
-                <label htmlFor='search'>Type the number or the name of the pokemon</label>
-                <input
-                    type='number'
-                    name='search'
-                    ref={searchBar}
-                    onChange={(e) => setInput(e.target.value)}
-                    value={input}
-                    />
+        <form onSubmit={handleSubmit} autoComplete='off' className='relative'>
+            <div className='flex flex-col gap-2'>
+                <label 
+                    htmlFor='search' 
+                    className='text-xl'
+                >
+                    Type the name of the pokemon
+                </label>
+                <div className=' flex gap-1 pr-1 border border-black rounded'>
+                    <input
+                        type='text'
+                        id='input'
+                        name='search'
+                        ref={searchBar}
+                        onChange={(e) => setSearchInput(e.target.value)}
+                        value={searchInput}
+                        onFocus={() => delaySelectionAction(true)}
+                        onBlur={() => delaySelectionAction(false)}
+                        className="grow"
+                        />
+                    <button type='submit'>
+                        <FaSearchengin />
+                    </button>
+                </div>
             </div>
+                <SearchBarSuggestions searchInput={searchInput} selectedBar={selectedBar} handleClick={handleClick} />
         </form>
     )
 }
