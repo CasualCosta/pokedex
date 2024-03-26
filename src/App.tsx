@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react'
+import { useState } from 'react'
 import './App.css'
 import SearchBar from './components/SearchBar'
 import PokemonDisplay from './components/PokemonDisplay'
@@ -8,6 +8,7 @@ function App() {
   const [searchTerm, setSearchTerm] = useState<string>('')
   const [searchInput, setSearchInput] = useState<string>('')
   
+
   return (
     <div className='flex flex-col justify-start h-dvh'>
       <div>

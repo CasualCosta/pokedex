@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 
 const url = "https://pokeapi.co/api/v2/pokemon/?limit=1500"
@@ -38,11 +38,11 @@ const SearchBarSuggestions = ({searchInput, selectedBar, handleClick: handleClic
 
 
     if(loading)
-        <div className={`${selectedBar ? "opacity-100" : "opacity-0"} max-h-20 bg-slate-500 overflow-y-auto absolute w-full top-14`}>
+        <div className={`${selectedBar ? "opacity-100" : "opacity-0"} max-h-20 bg-slate-300 overflow-y-auto absolute w-full top-14`}>
             Loading
         </div>
     return (
-        <div className={`${selectedBar ? "opacity-100" : "opacity-0"} max-h-40 bg-slate-500 overflow-y-auto absolute w-full top-14 rounded z-1`}>
+        <div className={`${selectedBar ? "opacity-100" : "opacity-0"} max-h-40 bg-slate-300 overflow-y-auto absolute w-full top-20 rounded z-1`}>
             {suggestions.map((sug, i) => {
                 return (
                     <button 
